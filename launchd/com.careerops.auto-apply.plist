@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.careerops.auto-apply</string>
+    <key>ProgramArguments</key>
+    <array>
+        <string>/usr/local/bin/node</string>
+        <string>/Users/aakashgadekar/Downloads/career-ops-main/auto-apply-naukri.mjs</string>
+    </array>
+    <key>WorkingDirectory</key>
+    <string>/Users/aakashgadekar/Downloads/career-ops-main</string>
+    <key>StartCalendarInterval</key>
+    <dict>
+        <key>Hour</key>
+        <integer>8</integer>
+        <key>Minute</key>
+        <integer>45</integer>
+    </dict>
+    <key>StandardOutPath</key>
+    <string>/Users/aakashgadekar/Downloads/career-ops-main/logs/auto-apply.log</string>
+    <key>StandardErrorPath</key>
+    <string>/Users/aakashgadekar/Downloads/career-ops-main/logs/auto-apply-error.log</string>
+    <key>EnvironmentVariables</key>
+    <dict>
+        <key>PATH</key>
+        <string>/usr/local/bin:/opt/homebrew/bin:/usr/bin:/bin</string>
+        <key>HOME</key>
+        <string>/Users/aakashgadekar</string>
+        <key>NAUKRI_EMAIL</key>
+        <string>aakash1998gadekar@gmail.com</string>
+        <key>NAUKRI_PASSWORD</key>
+        <string>Seegal16@</string>
+        <key>GMAIL_USER</key>
+        <string>aakash1998gadekar@gmail.com</string>
+        <key>GMAIL_APP_PASSWORD</key>
+        <string>vjdfvrwcjmaxmfjb</string>
+    </dict>
+</dict>
+</plist>

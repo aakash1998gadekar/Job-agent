@@ -1,0 +1,43 @@
+name: Job Digest
+
+on:
+  schedule:
+    # 3:00 AM UTC = 8:30 AM IST
+    - cron: '0 3 * * *'
+  workflow_dispatch: {}
+
+jobs:
+  scan-and-notify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - run: npm ci
+
+      - name: Install Playwright Chromium
+        run: npx playwright install chromium --with-deps
+
+      - name: Run Job Digest
+        run: node job-digest.mjs
+        env:
+          CI: 'true'
+          NAUKRI_STORAGE: ${{ secrets.NAUKRI_STORAGE }}
+          GMAIL_USER: ${{ secrets.GMAIL_USER }}
+          GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
+          LINKEDIN_EMAIL: ${{ secrets.LINKEDIN_EMAIL }}
+          LINKEDIN_PASSWORD: ${{ secrets.LINKEDIN_PASSWORD }}
+
+      - name: Commit scan history
+        run: |
+          git config user.name "career-ops-bot"
+          git config user.email "bot@career-ops.local"
+          git add data/naukri-history.tsv data/linkedin-history.tsv
+          git diff --staged --quiet || git commit -m "chore: update scan history [skip ci]"
+          git push

@@ -1,0 +1,33 @@
+name: Naukri Profile Update
+
+on:
+  schedule:
+    # 2:30 AM UTC = 8:00 AM IST
+    - cron: '30 2 * * *'
+  workflow_dispatch: {}
+
+jobs:
+  update-profile:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - run: npm ci
+
+      - name: Install Playwright Chromium
+        run: npx playwright install chromium --with-deps
+
+      - name: Update Naukri Profile
+        run: node naukri-profile-update.mjs
+        env:
+          CI: 'true'
+          NAUKRI_STORAGE: ${{ secrets.NAUKRI_STORAGE }}
+          GMAIL_USER: ${{ secrets.GMAIL_USER }}
+          GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
